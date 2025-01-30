@@ -8,17 +8,16 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var stuff = ["Un", "Dex", "Trois", "Quatre", "Cinq"]
+    @State private var assignmentItems = [AssignmentItem(course: "English", description: "Shakespeare Narrative", dueDate: Date()), AssignmentItem(course: "Physcology", description: "Two-Factor Theory Discussion", dueDate: Date()), AssignmentItem(course: "Calculus", description: "Related Rates Quiz", dueDate: Date()), AssignmentItem(course: "History", description: "Ottoman Empire Essay", dueDate: Date()), AssignmentItem(course: "Chemistry", description: "Periodic Table", dueDate: Date()), AssignmentItem(course: "Computer Science", description: "Assignment Notebook", dueDate: Date())]
     var body: some View {
         NavigationView{
             List {
-                ForEach(stuff, id: \.self) { assignment in
-                    Text(assignment)
+                ForEach(assignmentItems) { item in Text(item.description)
                 }
-                .onMove(perform: { indices, newOffset in stuff.move(fromOffsets: indices, toOffset: newOffset)})
-                .onDelete(perform: { indexSet in stuff.remove(atOffsets: indexSet)})
+                .onMove(perform: { indices, newOffset in assignmentItems.move(fromOffsets: indices, toOffset: newOffset)})
+                .onDelete(perform: { indexSet in assignmentItems.remove(atOffsets: indexSet)})
             }
-            .navigationBarTitle("Assignments", displayMode: .inline)
+            .navigationBarTitle("Assignment Notebook", displayMode: .inline)
             .navigationBarItems(leading: EditButton())
             
         }
@@ -27,4 +26,11 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+}
+
+struct AssignmentItem: Identifiable {
+    var id = UUID()
+    var course = String()
+    var description = String()
+    var dueDate = Date()
 }
