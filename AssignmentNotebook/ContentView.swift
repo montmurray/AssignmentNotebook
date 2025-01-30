@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var assignmentList = AssignmentList()
+    @State private var showingAddItemView = false
     var body: some View {
         NavigationView{
             List {
@@ -25,8 +26,11 @@ struct ContentView: View {
                 .onMove(perform: { indices, newOffset in assignmentList.items.move(fromOffsets: indices, toOffset: newOffset)})
                 .onDelete(perform: { indexSet in assignmentList.items.remove(atOffsets: indexSet)})
             }
+            .sheet(isPresented: $showingAddItemView, content: { AddItemView(assignmentList: assignmentList)
+            })
             .navigationBarTitle("Assignment Notebook", displayMode: .inline)
-            .navigationBarItems(leading: EditButton())
+            .navigationBarItems(leading: EditButton(), trailing: Button(action: { showingAddItemView = true}, label: {Image(systemName: "plus")
+            }))
             
         }
     }
