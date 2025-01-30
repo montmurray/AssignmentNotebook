@@ -12,7 +12,10 @@ struct ContentView: View {
     var body: some View {
         NavigationView{
             List {
-                ForEach(assignmentItems) { item in Text(item.description)
+                ForEach(assignmentItems) { item in VStack(alignment: .leading, content: {
+                    Text(item.course).font(.headline)
+                    Text(item.description)
+                })
                 }
                 .onMove(perform: { indices, newOffset in assignmentItems.move(fromOffsets: indices, toOffset: newOffset)})
                 .onDelete(perform: { indexSet in assignmentItems.remove(atOffsets: indexSet)})
